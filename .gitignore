@@ -29,8 +29,8 @@ migrate_working_dir/
 .flutter-plugins-dependencies
 .pub-cache/
 .pub/
-# build/
-# !build/web/*.gitignore
+build/
+
 
 # Symbolication related
 app.*.symbols
