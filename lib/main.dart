@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
           border: OutlineInputBorder(),
         ),
       ),
-      title: 'How much car can you afford?',
+      title: 'How Much Car Can You Afford?',
       home: const CarPaymentCalculator(),
     );
   }
