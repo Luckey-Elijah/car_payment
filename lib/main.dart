@@ -106,6 +106,7 @@ class _CarPaymentCalculatorState extends State<CarPaymentCalculator> {
           const SizedBox.square(dimension: 16),
           TextField(
             autofocus: true,
+            keyboardType: TextInputType.number,
             onChanged: grossIncomeChange,
             decoration: InputDecoration(
               errorText: errorMessageIfNull(annualGrossIncome),
@@ -115,6 +116,7 @@ class _CarPaymentCalculatorState extends State<CarPaymentCalculator> {
           ),
           const SizedBox.square(dimension: 16),
           TextField(
+            keyboardType: TextInputType.number,
             onChanged: interestRateChange,
             decoration: InputDecoration(
               errorText: errorMessageIfNull(
@@ -125,6 +127,7 @@ class _CarPaymentCalculatorState extends State<CarPaymentCalculator> {
           ),
           const SizedBox.square(dimension: 16),
           TextField(
+            keyboardType: TextInputType.number,
             onChanged: numberOfPaymentsChange,
             decoration: const InputDecoration(
               prefixText: r'$',
@@ -144,6 +147,7 @@ class _CarPaymentCalculatorState extends State<CarPaymentCalculator> {
                   children: [
                     Expanded(
                       child: TextField(
+                        keyboardType: TextInputType.number,
                         onChanged: percentDownChange,
                         decoration: const InputDecoration(
                           suffixText: r'%',
@@ -154,6 +158,7 @@ class _CarPaymentCalculatorState extends State<CarPaymentCalculator> {
                     const SizedBox.square(dimension: 16),
                     Expanded(
                       child: TextField(
+                        keyboardType: TextInputType.number,
                         onChanged: termChange,
                         decoration: const InputDecoration(
                           labelText: 'Term Length in months (36)',
@@ -163,6 +168,7 @@ class _CarPaymentCalculatorState extends State<CarPaymentCalculator> {
                     const SizedBox.square(dimension: 16),
                     Expanded(
                       child: TextField(
+                        keyboardType: TextInputType.number,
                         onChanged: percentIncomeChange,
                         decoration: const InputDecoration(
                           suffixText: r'%',
