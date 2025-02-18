@@ -2,8 +2,10 @@ import 'dart:math';
 
 import 'package:car_payment/finance_helpers.dart';
 import 'package:car_payment/label_widgets.dart';
+import 'package:flutter/material.dart' show Brightness, ThemeMode;
 import 'package:flutter/widgets.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void main() => runApp(const CarPaymentApp());
 
@@ -12,9 +14,93 @@ class CarPaymentApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ShadApp(
-      title: 'How Much Car Can You Afford?',
-      home: CarPaymentCalculator(),
+    return ValueListenableBuilder(
+      valueListenable: $theme,
+      builder: (contex, mode, _) {
+        return ShadApp(
+          debugShowCheckedModeBanner: false,
+          title: 'How Much Car Can You Afford?',
+          themeMode: mode,
+          theme: ShadThemeData(
+            brightness: Brightness.light,
+            colorScheme: const ShadGrayColorScheme.light(),
+          ),
+          darkTheme: ShadThemeData(
+            brightness: Brightness.dark,
+            colorScheme: const ShadGrayColorScheme.dark(),
+          ),
+          home: Builder(
+            builder: (context) {
+              return ColoredBox(
+                color: ShadTheme.of(context).colorScheme.background,
+                child: DefaultTextStyle(
+                  style: ShadTheme.of(context).textTheme.p,
+                  child: const Column(
+                    children: [
+                      Title(),
+                      Expanded(child: CarPaymentCalculator()),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+}
+
+final $theme = ValueNotifier<ThemeMode>(ThemeMode.system);
+
+class Title extends StatelessWidget {
+  const Title({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        const Spacer(),
+        Text(
+          'How Much Car Can You Afford',
+          style: ShadTheme.of(context).textTheme.h3,
+        ),
+        const Spacer(),
+        ValueListenableBuilder(
+          valueListenable: $theme,
+          builder: (_, mode, _) {
+            return ShadTooltip(
+              builder:
+                  (_) => switch (mode) {
+                    ThemeMode.system => const Text('using system mode'),
+                    ThemeMode.light => const Text('using light mode'),
+                    ThemeMode.dark => const Text('using dark mode'),
+                  },
+              child: ShadButton.outline(
+                icon: Icon(switch (mode) {
+                  ThemeMode.system => LucideIcons.computer,
+                  ThemeMode.light => LucideIcons.lightbulb,
+                  ThemeMode.dark => LucideIcons.lightbulbOff,
+                }),
+                onSecondaryTapDown: (value) {
+                  $theme.value = switch (mode) {
+                    ThemeMode.system => ThemeMode.dark,
+                    ThemeMode.light => ThemeMode.system,
+                    ThemeMode.dark => ThemeMode.light,
+                  };
+                },
+                onPressed: () {
+                  $theme.value = switch (mode) {
+                    ThemeMode.system => ThemeMode.light,
+                    ThemeMode.light => ThemeMode.dark,
+                    ThemeMode.dark => ThemeMode.system,
+                  };
+                },
+              ),
+            );
+          },
+        ),
+      ],
     );
   }
 }
@@ -25,6 +111,8 @@ class CarPaymentCalculator extends StatefulWidget {
   @override
   State<CarPaymentCalculator> createState() => _CarPaymentCalculatorState();
 }
+
+final url = Uri.parse('https://moneyguy.com/article/20-3-8-rule/');
 
 class CarPaymentNotifier with ChangeNotifier {
   int numberOfMonths = 36;
@@ -126,157 +214,174 @@ class _CarPaymentCalculatorState extends State<CarPaymentCalculator> {
     return ListenableBuilder(
       listenable: notifier,
       builder: (context, _) {
-        return ColoredBox(
-          color: ShadTheme.of(context).colorScheme.background,
-          child: ListView(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: ShadCard(
-                  child: Column(
-                    children: [
-                      ShadInput(
-                        autofocus: true,
-                        keyboardType: TextInputType.number,
-                        onChanged: notifier.grossIncomeChange,
-                        placeholder: const Text('Annual Gross Income'),
-                        prefix: Text(
-                          r'$',
-                          style: ShadTheme.of(context).textTheme.muted,
-                        ),
-                        decoration: errorWhenNull(notifier.annualGrossIncome),
+        return ListView(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: ShadCard(
+                child: Column(
+                  children: [
+                    ShadInput(
+                      autofocus: true,
+                      keyboardType: TextInputType.number,
+                      onChanged: notifier.grossIncomeChange,
+                      placeholder: const Text('Annual Gross Income'),
+                      prefix: Text(
+                        r'$',
+                        style: ShadTheme.of(context).textTheme.muted,
                       ),
+                      decoration: errorWhenNull(notifier.annualGrossIncome),
+                    ),
 
-                      ShadInput(
-                        keyboardType: TextInputType.number,
-                        onChanged: notifier.interestRateChange,
-                        placeholder: const Text('Interest Rate'),
-                        suffix: Text(
-                          '%',
-                          style: ShadTheme.of(context).textTheme.muted,
-                        ),
-                        decoration: errorWhenNull(notifier.interestRate),
+                    ShadInput(
+                      keyboardType: TextInputType.number,
+                      onChanged: notifier.interestRateChange,
+                      placeholder: const Text('Interest Rate'),
+                      suffix: Text(
+                        '%',
+                        style: ShadTheme.of(context).textTheme.muted,
                       ),
+                      decoration: errorWhenNull(notifier.interestRate),
+                    ),
 
-                      ShadInput(
-                        keyboardType: TextInputType.number,
-                        onChanged: notifier.numberOfPaymentsChange,
-                        prefix: Text(
-                          r'$',
-                          style: ShadTheme.of(context).textTheme.muted,
-                        ),
-                        placeholder: const Text('Current Monthly Car Payments'),
+                    ShadInput(
+                      keyboardType: TextInputType.number,
+                      onChanged: notifier.numberOfPaymentsChange,
+                      prefix: Text(
+                        r'$',
+                        style: ShadTheme.of(context).textTheme.muted,
                       ),
-                    ],
-                  ),
+                      placeholder: const Text('Current Monthly Car Payments'),
+                    ),
+                  ],
                 ),
               ),
-              gap(dimension: 16),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: ShadCard(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Adjust more...',
-                        style: ShadTheme.of(context).textTheme.h4,
-                      ),
+            ),
+            gap(dimension: 16),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: ShadCard(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Adjust more...',
+                      style: ShadTheme.of(context).textTheme.h4,
+                    ),
 
-                      LayoutBuilder(
-                        builder: (context, constraints) {
-                          final percentDown = ShadInput(
-                            keyboardType: TextInputType.number,
-                            onChanged: notifier.percentDownChange,
-                            suffix: Text(
-                              '%',
-                              style: ShadTheme.of(context).textTheme.muted,
-                            ),
-                            placeholder: const Text(
-                              'Percent down (20% default)',
-                            ),
+                    LayoutBuilder(
+                      builder: (context, constraints) {
+                        final percentDown = ShadInput(
+                          keyboardType: TextInputType.number,
+                          onChanged: notifier.percentDownChange,
+                          suffix: Text(
+                            '%',
+                            style: ShadTheme.of(context).textTheme.muted,
+                          ),
+                          placeholder: const Text('Percent down (20% default)'),
+                        );
+                        final termLength = ShadInput(
+                          keyboardType: TextInputType.number,
+                          onChanged: notifier.termChange,
+                          placeholder: const Text('Term Length in months (36)'),
+                        );
+                        final pretax = ShadInput(
+                          keyboardType: TextInputType.number,
+                          onChanged: notifier.percentIncomeChange,
+                          suffix: Text(
+                            '%',
+                            style: ShadTheme.of(context).textTheme.muted,
+                          ),
+                          placeholder: const Text('% of pre-tax income (8%)'),
+                        );
+                        if (constraints.maxWidth > 600) {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Expanded(child: percentDown),
+                              Expanded(child: termLength),
+                              Expanded(child: pretax),
+                            ],
                           );
-                          final termLength = ShadInput(
-                            keyboardType: TextInputType.number,
-                            onChanged: notifier.termChange,
-                            placeholder: const Text(
-                              'Term Length in months (36)',
-                            ),
-                          );
-                          final pretax = ShadInput(
-                            keyboardType: TextInputType.number,
-                            onChanged: notifier.percentIncomeChange,
-                            suffix: Text(
-                              '%',
-                              style: ShadTheme.of(context).textTheme.muted,
-                            ),
-                            placeholder: const Text('% of pre-tax income (8%)'),
-                          );
-                          if (constraints.maxWidth > 600) {
-                            return Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Expanded(child: percentDown),
-                                Expanded(child: termLength),
-                                Expanded(child: pretax),
-                              ],
-                            );
-                          }
-                          return Column(
-                            children: [percentDown, termLength, pretax],
-                          );
-                        },
-                      ),
-                    ],
-                  ),
+                        }
+                        return Column(
+                          children: [percentDown, termLength, pretax],
+                        );
+                      },
+                    ),
+                  ],
                 ),
               ),
-              gap(dimension: 16),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: ShadCard(
-                  child: LayoutBuilder(
-                    builder: (context, constraints) {
-                      if (constraints.maxWidth > 480) {
-                        return Row(
-                          children: [
-                            PercentDownLabel(downPercent: notifier.downPercent),
-                            const Spacer(),
-                            PayoffTimeLabel(
+            ),
+            gap(dimension: 16),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: ShadCard(
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    if (constraints.maxWidth > 480) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Flexible(
+                            child: PercentDownLabel(
+                              downPercent: notifier.downPercent,
+                            ),
+                          ),
+                          Flexible(
+                            child: PayoffTimeLabel(
                               numberOfMonths: notifier.numberOfMonths,
                             ),
-                            const Spacer(),
-                            PretaxIncomRateLabel(incomeCap: notifier.incomeCap),
-                          ],
-                        );
-                      }
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          PercentDownLabel(downPercent: notifier.downPercent),
-                          PayoffTimeLabel(
-                            numberOfMonths: notifier.numberOfMonths,
                           ),
-                          PretaxIncomRateLabel(incomeCap: notifier.incomeCap),
+                          Flexible(
+                            child: PretaxIncomRateLabel(
+                              incomeCap: notifier.incomeCap,
+                            ),
+                          ),
                         ],
                       );
-                    },
-                  ),
+                    }
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        PercentDownLabel(downPercent: notifier.downPercent),
+                        PayoffTimeLabel(
+                          numberOfMonths: notifier.numberOfMonths,
+                        ),
+                        PretaxIncomRateLabel(incomeCap: notifier.incomeCap),
+                      ],
+                    );
+                  },
                 ),
               ),
-              gap(dimension: 16),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: ShadCard(
-                  child: CarAffordableResultsLabel(
-                    affordAmount: notifier.affordAmount,
-                    downPercent: notifier.downPercent,
-                    monthlyPayment: notifier.monthlyPayment,
-                  ),
+            ),
+            gap(dimension: 16),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: ShadCard(
+                child: Column(
+                  children: [
+                    CarAffordableResultsLabel(
+                      affordAmount: notifier.affordAmount,
+                      downPercent: notifier.downPercent,
+                      monthlyPayment: notifier.monthlyPayment,
+                    ),
+                    ShadTooltip(
+                      builder: (_) => Text('$url'),
+                      child: ShadButton.link(
+                        onPressed: () async {
+                          if (!await launchUrl(url)) {
+                            throw Exception('Could not launch $url');
+                          }
+                        },
+                        child: const Text('Based on the 20/3/8 Rule'),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         );
       },
     );
