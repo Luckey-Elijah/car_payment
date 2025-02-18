@@ -39,7 +39,7 @@ class CarPaymentApp extends StatelessWidget {
                   child: const Column(
                     children: [
                       Title(),
-                      Expanded(child: CarPaymentCalculator()),
+                      Flexible(child: CarPaymentCalculator()),
                     ],
                   ),
                 ),
@@ -61,12 +61,19 @@ class Title extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const Spacer(),
-        Text(
-          'How Much Car Can You Afford',
-          style: ShadTheme.of(context).textTheme.h3,
+        Expanded(
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 8),
+              child: Text(
+                'How Much Car Can You Afford',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: ShadTheme.of(context).textTheme.h3,
+              ),
+            ),
+          ),
         ),
-        const Spacer(),
         ValueListenableBuilder(
           valueListenable: $theme,
           builder: (_, mode, _) {
@@ -211,15 +218,15 @@ class _CarPaymentCalculatorState extends State<CarPaymentCalculator> {
       return null;
     }
 
-    const gap = SizedBox.square;
     return ListenableBuilder(
       listenable: notifier,
       builder: (context, _) {
         return ListView(
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
+              padding: const EdgeInsets.all(8),
               child: ShadCard(
+                width: 200,
                 child: Column(
                   children: [
                     ShadInput(
@@ -258,9 +265,9 @@ class _CarPaymentCalculatorState extends State<CarPaymentCalculator> {
                 ),
               ),
             ),
-            gap(dimension: 16),
+
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
+              padding: const EdgeInsets.all(8),
               child: ShadCard(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -314,9 +321,9 @@ class _CarPaymentCalculatorState extends State<CarPaymentCalculator> {
                 ),
               ),
             ),
-            gap(dimension: 16),
+
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
+              padding: const EdgeInsets.all(8),
               child: ShadCard(
                 child: LayoutBuilder(
                   builder: (context, constraints) {
@@ -356,9 +363,9 @@ class _CarPaymentCalculatorState extends State<CarPaymentCalculator> {
                 ),
               ),
             ),
-            gap(dimension: 16),
+
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
+              padding: const EdgeInsets.all(8),
               child: ShadCard(
                 child: Column(
                   children: [
