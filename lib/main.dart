@@ -3,9 +3,9 @@ import 'dart:math';
 import 'package:car_payment/finance_helpers.dart';
 import 'package:car_payment/label_widgets.dart';
 import 'package:flutter/material.dart' show Brightness, ThemeMode;
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 void main() => runApp(const CarPaymentApp());
 
@@ -370,9 +370,16 @@ class _CarPaymentCalculatorState extends State<CarPaymentCalculator> {
                       builder: (_) => Text('$url'),
                       child: ShadButton.link(
                         onPressed: () async {
-                          if (!await launchUrl(url)) {
-                            throw Exception('Could not launch $url');
-                          }
+                          ShadToaster.of(context).show(
+                            ShadToast(
+                              title: const Text('Uh oh! Something went wrong.'),
+                              description: Text('Could not launch "$url".'),
+                              action: const CopyUrlToClipboard(),
+                            ),
+                          );
+                          // if (!await launchUrl(url)) {
+                          //   throw Exception('Could not launch $url');
+                          // }
                         },
                         child: const Text('Based on the 20/3/8 Rule'),
                       ),
@@ -385,5 +392,34 @@ class _CarPaymentCalculatorState extends State<CarPaymentCalculator> {
         );
       },
     );
+  }
+}
+
+class CopyUrlToClipboard extends StatefulWidget {
+  const CopyUrlToClipboard({super.key});
+
+  @override
+  State<CopyUrlToClipboard> createState() => _CopyUrlToClipboardState();
+}
+
+class _CopyUrlToClipboardState extends State<CopyUrlToClipboard> {
+  var copied = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return ShadButton(onPressed: onPressed, icon: icon());
+  }
+
+  Widget icon() {
+    if (copied) return const Icon(LucideIcons.clipboardCheck);
+    return const Icon(LucideIcons.clipboardCopy);
+  }
+
+  void onPressed() async {
+    try {
+      await Clipboard.setData(ClipboardData(text: '$url'));
+    } finally {
+      setState(() => copied = true);
+    }
   }
 }
