@@ -6,6 +6,7 @@ import 'package:flutter/material.dart' show Brightness, ThemeMode;
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void main() => runApp(const CarPaymentApp());
 
@@ -370,16 +371,17 @@ class _CarPaymentCalculatorState extends State<CarPaymentCalculator> {
                       builder: (_) => Text('$url'),
                       child: ShadButton.link(
                         onPressed: () async {
-                          ShadToaster.of(context).show(
-                            ShadToast(
-                              title: const Text('Uh oh! Something went wrong.'),
-                              description: Text('Could not launch "$url".'),
-                              action: const CopyUrlToClipboard(),
-                            ),
-                          );
-                          // if (!await launchUrl(url)) {
-                          //   throw Exception('Could not launch $url');
-                          // }
+                          if (!await launchUrl(url) && context.mounted) {
+                            ShadToaster.of(context).show(
+                              ShadToast(
+                                title: const Text(
+                                  'Uh oh! Something went wrong.',
+                                ),
+                                description: Text('Could not launch "$url".'),
+                                action: const CopyUrlToClipboard(),
+                              ),
+                            );
+                          }
                         },
                         child: const Text('Based on the 20/3/8 Rule'),
                       ),
