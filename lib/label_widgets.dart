@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 class CarAffordableResultsLabel extends StatelessWidget {
   const CarAffordableResultsLabel({
@@ -14,9 +15,9 @@ class CarAffordableResultsLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final label = theme.textTheme.headlineSmall;
-    final boldLabel = label?.copyWith(
+    final theme = ShadTheme.of(context);
+    final label = theme.textTheme.p;
+    final boldLabel = label.copyWith(
       color: theme.colorScheme.primary,
       fontWeight: FontWeight.bold,
     );
@@ -27,18 +28,23 @@ class CarAffordableResultsLabel extends StatelessWidget {
         children: [
           const TextSpan(text: 'You can afford '),
           TextSpan(
-            text: r'$' '${affordAmount.toStringAsFixed(0)}',
+            text:
+                r'$'
+                '${affordAmount.toStringAsFixed(0)}',
             style: boldLabel,
           ),
           const TextSpan(text: ' worth of car with a down payment of '),
           TextSpan(
-            text: r'$'
+            text:
+                r'$'
                 '${((((downPercent) / 100)) * affordAmount).toStringAsFixed(0)}',
             style: boldLabel,
           ),
           const TextSpan(text: '. Your monthly payment would be '),
           TextSpan(
-            text: r'$' '${monthlyPayment.toStringAsFixed(0)}',
+            text:
+                r'$'
+                '${monthlyPayment.toStringAsFixed(0)}',
             style: boldLabel,
           ),
           const TextSpan(text: '.'),
@@ -49,18 +55,15 @@ class CarAffordableResultsLabel extends StatelessWidget {
 }
 
 class PretaxIncomRateLabel extends StatelessWidget {
-  const PretaxIncomRateLabel({
-    super.key,
-    required this.incomeCap,
-  });
+  const PretaxIncomRateLabel({super.key, required this.incomeCap});
 
   final double incomeCap;
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final label = theme.textTheme.headlineSmall;
-    final boldLabel = label?.copyWith(
+    final theme = ShadTheme.of(context);
+    final label = theme.textTheme.p;
+    final boldLabel = label.copyWith(
       color: theme.colorScheme.primary,
       fontWeight: FontWeight.bold,
     );
@@ -80,18 +83,15 @@ class PretaxIncomRateLabel extends StatelessWidget {
 }
 
 class PayoffTimeLabel extends StatelessWidget {
-  const PayoffTimeLabel({
-    super.key,
-    required this.numberOfMonths,
-  });
+  const PayoffTimeLabel({super.key, required this.numberOfMonths});
 
   final int numberOfMonths;
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final label = theme.textTheme.headlineSmall;
-    final boldLabel = label?.copyWith(
+    final theme = ShadTheme.of(context);
+    final label = theme.textTheme.p;
+    final boldLabel = label.copyWith(
       color: theme.colorScheme.primary,
       fontWeight: FontWeight.bold,
     );
@@ -99,10 +99,7 @@ class PayoffTimeLabel extends StatelessWidget {
       TextSpan(
         style: label,
         children: [
-          TextSpan(
-            text: '$numberOfMonths',
-            style: boldLabel,
-          ),
+          TextSpan(text: '$numberOfMonths', style: boldLabel),
           const TextSpan(text: ' months to pay off.'),
         ],
       ),
@@ -111,18 +108,15 @@ class PayoffTimeLabel extends StatelessWidget {
 }
 
 class PercentDownLabel extends StatelessWidget {
-  const PercentDownLabel({
-    super.key,
-    required this.downPercent,
-  });
+  const PercentDownLabel({super.key, required this.downPercent});
 
   final double downPercent;
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final label = theme.textTheme.headlineSmall;
-    final boldLabel = label?.copyWith(
+    final theme = ShadTheme.of(context);
+    final label = theme.textTheme.p;
+    final boldLabel = label.copyWith(
       color: theme.colorScheme.primary,
       fontWeight: FontWeight.bold,
     );
@@ -130,10 +124,7 @@ class PercentDownLabel extends StatelessWidget {
       TextSpan(
         style: label,
         children: [
-          TextSpan(
-            text: '${(downPercent).toInt()}%',
-            style: boldLabel,
-          ),
+          TextSpan(text: '${(downPercent).toInt()}%', style: boldLabel),
           const TextSpan(text: ' down.'),
         ],
       ),

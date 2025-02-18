@@ -2,11 +2,11 @@ name: car_payment
 description: "How Much Car Can You Afford?"
 publish_to: "none"
 version: 1.0.0+1
-flutter: { uses-material-design: true }
+flutter: { uses-material-design: false }
 environment:
-  sdk: ">=3.3.4 <4.0.0"
-  flutter: "3.22.0"
-dependencies: { flutter: { sdk: flutter } }
+  sdk: "^3.7.0-323.0.dev"
+  flutter: "3.29.0"
+dependencies: { flutter: { sdk: flutter }, shadcn_ui: ^0.19.3 }
 dev_dependencies:
   flutter_test: { sdk: flutter }
   flutter_lints: ^3.0.0
