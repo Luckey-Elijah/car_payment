@@ -6,7 +6,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
-      - uses: bluefireteam/flutter-gh-pages@v7
+      # - uses: bluefireteam/flutter-gh-pages@v7
+      - uses: cleverflow/flutter-gh-pages@˝
         with:
           customArgs: "--wasm"
           baseHref: "/car_payment/"
