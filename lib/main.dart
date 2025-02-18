@@ -140,7 +140,10 @@ class _CarPaymentCalculatorState extends State<CarPaymentCalculator> {
                         keyboardType: TextInputType.number,
                         onChanged: notifier.grossIncomeChange,
                         placeholder: const Text('Annual Gross Income'),
-                        prefix: const Text(r'$'),
+                        prefix: Text(
+                          r'$',
+                          style: ShadTheme.of(context).textTheme.muted,
+                        ),
                         decoration: errorWhenNull(notifier.annualGrossIncome),
                       ),
 
@@ -148,14 +151,20 @@ class _CarPaymentCalculatorState extends State<CarPaymentCalculator> {
                         keyboardType: TextInputType.number,
                         onChanged: notifier.interestRateChange,
                         placeholder: const Text('Interest Rate'),
-                        suffix: const Text('%'),
+                        suffix: Text(
+                          '%',
+                          style: ShadTheme.of(context).textTheme.muted,
+                        ),
                         decoration: errorWhenNull(notifier.interestRate),
                       ),
 
                       ShadInput(
                         keyboardType: TextInputType.number,
                         onChanged: notifier.numberOfPaymentsChange,
-                        prefix: const Text(r'$'),
+                        prefix: Text(
+                          r'$',
+                          style: ShadTheme.of(context).textTheme.muted,
+                        ),
                         placeholder: const Text('Current Monthly Car Payments'),
                       ),
                     ],
@@ -176,25 +185,31 @@ class _CarPaymentCalculatorState extends State<CarPaymentCalculator> {
 
                       LayoutBuilder(
                         builder: (context, constraints) {
-                          var percentDown = ShadInput(
+                          final percentDown = ShadInput(
                             keyboardType: TextInputType.number,
                             onChanged: notifier.percentDownChange,
-                            suffix: const Text('%'),
+                            suffix: Text(
+                              '%',
+                              style: ShadTheme.of(context).textTheme.muted,
+                            ),
                             placeholder: const Text(
                               'Percent down (20% default)',
                             ),
                           );
-                          var termLength = ShadInput(
+                          final termLength = ShadInput(
                             keyboardType: TextInputType.number,
                             onChanged: notifier.termChange,
                             placeholder: const Text(
                               'Term Length in months (36)',
                             ),
                           );
-                          var pretax = ShadInput(
+                          final pretax = ShadInput(
                             keyboardType: TextInputType.number,
                             onChanged: notifier.percentIncomeChange,
-                            suffix: const Text('%'),
+                            suffix: Text(
+                              '%',
+                              style: ShadTheme.of(context).textTheme.muted,
+                            ),
                             placeholder: const Text('% of pre-tax income (8%)'),
                           );
                           if (constraints.maxWidth > 600) {
