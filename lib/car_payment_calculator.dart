@@ -14,11 +14,6 @@ import 'package:shadcn_ui/shadcn_ui.dart';
 class CarPaymentCalculator extends StatelessWidget {
   const CarPaymentCalculator({super.key});
 
-  String? errorMessageIfNull(Object? value, [String? message]) {
-    if (value == null) return message ?? 'Please enter a number.';
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
     return ListView(
