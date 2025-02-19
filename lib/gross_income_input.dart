@@ -37,18 +37,14 @@ class _GrossIncomeInputState extends State<GrossIncomeInput> {
       context,
       (x) => x.annualGrossIncome,
     );
-    return Column(
-      children: [
-        Text('$annualGrossIncome'),
-        ShadInput(
-          controller: controller,
-          autofocus: true,
-          keyboardType: TextInputType.number,
-          placeholder: const Text('Annual Gross Income'),
-          prefix: Text(r'$', style: ShadTheme.of(context).textTheme.muted),
-          decoration: errorWhenNull(annualGrossIncome, context),
-        ),
-      ],
+
+    return ShadInput(
+      controller: controller,
+      autofocus: true,
+      keyboardType: TextInputType.number,
+      placeholder: const Text('Annual Gross Income'),
+      prefix: Text(r'$', style: ShadTheme.of(context).textTheme.muted),
+      decoration: errorWhenNull(annualGrossIncome, context),
     );
   }
 }
