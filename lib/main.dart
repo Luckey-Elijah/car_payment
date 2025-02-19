@@ -19,19 +19,24 @@ class CarPaymentApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final mode = $theme.watch(context);
 
+    final theme = ShadThemeData(
+      brightness: Brightness.light,
+      colorScheme: const ShadGrayColorScheme.light(),
+    );
+    final darkTheme = ShadThemeData(
+      brightness: Brightness.dark,
+      colorScheme: const ShadGrayColorScheme.dark(),
+    );
     return ShadApp(
-      color: const Color(0xffffffff),
+      color: switch (mode) {
+        ThemeMode.light => theme.colorScheme.background,
+        _ => darkTheme.colorScheme.background,
+      },
       debugShowCheckedModeBanner: false,
       title: 'How Much Car Can You Afford?',
       themeMode: mode,
-      theme: ShadThemeData(
-        brightness: Brightness.light,
-        colorScheme: const ShadGrayColorScheme.light(),
-      ),
-      darkTheme: ShadThemeData(
-        brightness: Brightness.dark,
-        colorScheme: const ShadGrayColorScheme.dark(),
-      ),
+      theme: theme,
+      darkTheme: darkTheme,
       home: const BgAndDefaultTextWrapper(
         child: Column(
           children: [
