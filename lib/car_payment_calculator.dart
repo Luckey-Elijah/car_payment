@@ -16,6 +16,10 @@ class CarPaymentCalculator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final $ = $carPayment;
+    final affordAmount = $.watchOnly(context, (x) => x.affordAmount);
+    final downPercent = $.watchOnly(context, (x) => x.downPercent);
+    final monthlyPayment = $.watchOnly(context, (x) => x.monthlyPayment);
     return ListView(
       children: [
         const Padding(
@@ -49,18 +53,9 @@ class CarPaymentCalculator extends StatelessWidget {
                     const DetailsSummarySection(),
                     const HLine(),
                     CarAffordableResultsLabel(
-                      affordAmount: $carPayment.watchOnly(
-                        context,
-                        (x) => x.affordAmount,
-                      ),
-                      downPercent: $carPayment.watchOnly(
-                        context,
-                        (x) => x.downPercent,
-                      ),
-                      monthlyPayment: $carPayment.watchOnly(
-                        context,
-                        (x) => x.monthlyPayment,
-                      ),
+                      monthlyPayment: monthlyPayment,
+                      affordAmount: affordAmount,
+                      downPercent: downPercent,
                     ),
                     const WebReferenceLinkButton(),
                   ],
