@@ -1,23 +1,23 @@
 import 'package:car_payment/car_payment_notifier.dart';
-import 'package:car_payment/currency_text_editing_controller.dart';
 import 'package:car_payment/error_when_null.dart';
 import 'package:context_plus/context_plus.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
-class GrossIncomeInput extends StatefulWidget {
-  const GrossIncomeInput({super.key});
+class InterestRateInput extends StatefulWidget {
+  const InterestRateInput({super.key});
 
   @override
-  State<GrossIncomeInput> createState() => _GrossIncomeInputState();
+  State<InterestRateInput> createState() => _InterestRateInputState();
 }
 
-class _GrossIncomeInputState extends State<GrossIncomeInput> {
-  final controller = CurrencyTextEditingController();
+class _InterestRateInputState extends State<InterestRateInput> {
   final focusNode = FocusNode();
   var hasFocus = false;
   var first = true;
+  final controller = TextEditingController();
+
   void focusListener() {
     if (hasFocus && !focusNode.hasFocus) {
       setState(() => first = false);
@@ -29,18 +29,20 @@ class _GrossIncomeInputState extends State<GrossIncomeInput> {
   @override
   void initState() {
     super.initState();
-    controller.addListener(listener);
-    controller.text = '80,000';
     focusNode.addListener(focusListener);
+    controller.addListener(listener);
+    controller.text = '8';
   }
 
   void listener() {
-    $carPayment.grossIncomeChange(controller.text.replaceAll(',', ''));
+    $carPayment.interestRateChange(controller.text);
   }
 
   @override
   void dispose() {
-    controller.removeListener(listener);
+    controller
+      ..removeListener(listener)
+      ..dispose();
     focusNode
       ..removeListener(focusListener)
       ..dispose();
@@ -49,19 +51,17 @@ class _GrossIncomeInputState extends State<GrossIncomeInput> {
 
   @override
   Widget build(BuildContext context) {
-    final annualGrossIncome = $carPayment.watchOnly(
-      context,
-      (x) => x.annualGrossIncome,
-    );
-
-    var decoration = errorWhenNull(annualGrossIncome, context);
+    final interestRate = $carPayment.watchOnly(context, (x) => x.interestRate);
+    var decor = errorWhenNull(interestRate, context);
     return ShadInput(
       controller: controller,
       focusNode: focusNode,
       keyboardType: TextInputType.number,
-      placeholder: const Text('Annual Gross Income'),
-      prefix: Text(r'$', style: ShadTheme.of(context).textTheme.muted),
-      decoration: first ? null : decoration,
+      onChanged: $carPayment.interestRateChange,
+      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+      placeholder: const Text('Interest Rate'),
+      suffix: Text('%', style: ShadTheme.of(context).textTheme.muted),
+      decoration: first ? null : decor,
     );
   }
 }
