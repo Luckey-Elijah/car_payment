@@ -20,6 +20,7 @@ class CarPaymentApp extends StatelessWidget {
     final mode = $theme.watch(context);
 
     return ShadApp(
+      color: const Color(0xffffffff),
       debugShowCheckedModeBanner: false,
       title: 'How Much Car Can You Afford?',
       themeMode: mode,
@@ -51,7 +52,7 @@ class CarPaymentApp extends StatelessWidget {
   }
 }
 
-ShadDecoration? errorWhenNull(Object? value, BuildContext context) {
+ShadDecoration? errorWhenNull(double? value, BuildContext context) {
   if (value == null) {
     return ShadDecoration(
       border: ShadBorder.all(
@@ -102,6 +103,7 @@ class CarPaymentCalculator extends StatelessWidget {
           padding: const EdgeInsets.all(8),
           child: ShadCard(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 CarAffordableResultsLabel(
                   affordAmount: $carPayment.watchOnly(
@@ -146,7 +148,7 @@ class WebReferenceLinkButton extends StatelessWidget {
             );
           }
         },
-        child: const Text('Based on the 20/3/8 Rule'),
+        child: const Text('What is the 20/3/8 Rule?'),
       ),
     );
   }
@@ -311,18 +313,51 @@ class _MonthlyCarPaymentInputState extends State<MonthlyCarPaymentInput> {
   }
 }
 
-class InterestRateInput extends StatelessWidget {
+class InterestRateInput extends StatefulWidget {
   const InterestRateInput({super.key});
+
+  @override
+  State<InterestRateInput> createState() => _InterestRateInputState();
+}
+
+class _InterestRateInputState extends State<InterestRateInput> {
+  final focusNode = FocusNode();
+  var hasFocus = false;
+  var first = true;
+
+  void focusListener() {
+    if (hasFocus && !focusNode.hasFocus) {
+      setState(() => first = false);
+    } else if (!hasFocus) {
+      setState(() => hasFocus = focusNode.hasFocus);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    focusNode.addListener(focusListener);
+  }
+
+  @override
+  void dispose() {
+    focusNode
+      ..removeListener(focusListener)
+      ..dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final interestRate = $carPayment.watchOnly(context, (x) => x.interestRate);
+    var decor = errorWhenNull(interestRate, context);
     return ShadInput(
+      focusNode: focusNode,
       keyboardType: TextInputType.number,
       onChanged: $carPayment.interestRateChange,
       placeholder: const Text('Interest Rate'),
       suffix: Text('%', style: ShadTheme.of(context).textTheme.muted),
-      decoration: errorWhenNull(interestRate, context),
+      decoration: first ? null : decor,
     );
   }
 }
