@@ -367,6 +367,7 @@ class _InterestRateInputState extends State<InterestRateInput> {
   final focusNode = FocusNode();
   var hasFocus = false;
   var first = true;
+  final controller = TextEditingController();
 
   void focusListener() {
     if (hasFocus && !focusNode.hasFocus) {
@@ -380,10 +381,19 @@ class _InterestRateInputState extends State<InterestRateInput> {
   void initState() {
     super.initState();
     focusNode.addListener(focusListener);
+    controller.addListener(listener);
+    controller.text = '8';
+  }
+
+  void listener() {
+    $carPayment.interestRateChange(controller.text);
   }
 
   @override
   void dispose() {
+    controller
+      ..removeListener(listener)
+      ..dispose();
     focusNode
       ..removeListener(focusListener)
       ..dispose();
@@ -395,6 +405,7 @@ class _InterestRateInputState extends State<InterestRateInput> {
     final interestRate = $carPayment.watchOnly(context, (x) => x.interestRate);
     var decor = errorWhenNull(interestRate, context);
     return ShadInput(
+      controller: controller,
       focusNode: focusNode,
       keyboardType: TextInputType.number,
       onChanged: $carPayment.interestRateChange,

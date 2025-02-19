@@ -30,6 +30,7 @@ class _GrossIncomeInputState extends State<GrossIncomeInput> {
   void initState() {
     super.initState();
     controller.addListener(listener);
+    controller.text = '80,000';
     focusNode.addListener(focusListener);
   }
 
