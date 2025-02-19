@@ -87,16 +87,10 @@ class CarPaymentCalculator extends StatelessWidget {
                 GrossIncomeInput(),
                 InterestRateInput(),
                 MonthlyCarPaymentInput(),
+                AdjustMoreSection(),
               ],
             ),
           ),
-        ),
-
-        const Padding(padding: EdgeInsets.all(8), child: AdjustMoreSection()),
-
-        const Padding(
-          padding: EdgeInsets.all(8),
-          child: ShadCard(child: DetailsSummarySection()),
         ),
 
         Padding(
@@ -105,6 +99,8 @@ class CarPaymentCalculator extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                const DetailsSummarySection(),
+                const HLine(),
                 CarAffordableResultsLabel(
                   affordAmount: $carPayment.watchOnly(
                     context,
@@ -129,6 +125,27 @@ class CarPaymentCalculator extends StatelessWidget {
   }
 }
 
+class HLine extends StatelessWidget {
+  const HLine({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: ShadDecorator(
+        decoration: ShadDecoration(
+          border: ShadBorder(
+            top: ShadBorderSide(
+              width: 1,
+              color: ShadTheme.of(context).colorScheme.border,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class WebReferenceLinkButton extends StatelessWidget {
   const WebReferenceLinkButton({super.key});
 
@@ -136,7 +153,9 @@ class WebReferenceLinkButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ShadTooltip(
       builder: (_) => Text('$url'),
-      child: ShadButton.link(
+      child: ShadButton.ghost(
+        expands: true,
+        icon: const Icon(LucideIcons.externalLink),
         onPressed: () async {
           if (!await launchUrl(url) && context.mounted) {
             ShadToaster.of(context).show(
@@ -148,7 +167,11 @@ class WebReferenceLinkButton extends StatelessWidget {
             );
           }
         },
-        child: const Text('What is the 20/3/8 Rule?'),
+        child: const Text(
+          'What is the 20/3/8 Rule?',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
       ),
     );
   }
@@ -173,15 +196,17 @@ class DetailsSummarySection extends StatelessWidget {
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              PercentDownLabel(downPercent: $carPayment.downPercent),
               Flexible(
-                child: PercentDownLabel(downPercent: $carPayment.downPercent),
-              ),
-              Flexible(
-                child: PayoffTimeLabel(
-                  numberOfMonths: $carPayment.numberOfMonths,
+                child: Align(
+                  alignment: AlignmentDirectional.center,
+                  child: PayoffTimeLabel(
+                    numberOfMonths: $carPayment.numberOfMonths,
+                  ),
                 ),
               ),
-              Flexible(
+              Align(
+                alignment: AlignmentDirectional.centerEnd,
                 child: PretaxIncomRateLabel(incomeCap: $carPayment.incomeCap),
               ),
             ],
@@ -205,32 +230,23 @@ class AdjustMoreSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ShadCard(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('Adjust more...', style: ShadTheme.of(context).textTheme.h4),
-
-          LayoutBuilder(
-            builder: (context, constraints) {
-              const percentDown = PercentDownInput();
-              const termLength = TermLengthInput();
-              const pretax = PercentIncomeInput();
-              if (constraints.maxWidth > 600) {
-                return const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Expanded(child: percentDown),
-                    Expanded(child: termLength),
-                    Expanded(child: pretax),
-                  ],
-                );
-              }
-              return const Column(children: [percentDown, termLength, pretax]);
-            },
-          ),
-        ],
-      ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        const percentDown = PercentDownInput();
+        const termLength = TermLengthInput();
+        const pretax = PercentIncomeInput();
+        if (constraints.maxWidth > 600) {
+          return const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Expanded(child: percentDown),
+              Expanded(child: termLength),
+              Expanded(child: pretax),
+            ],
+          );
+        }
+        return const Column(children: [percentDown, termLength, pretax]);
+      },
     );
   }
 }
@@ -242,6 +258,7 @@ class PercentIncomeInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return ShadInput(
       keyboardType: TextInputType.number,
+      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
       onChanged: $carPayment.percentIncomeChange,
       suffix: Text('%', style: ShadTheme.of(context).textTheme.muted),
       placeholder: const Text('% of pre-tax income (8%)'),
@@ -257,6 +274,7 @@ class TermLengthInput extends StatelessWidget {
     return ShadInput(
       keyboardType: TextInputType.number,
       onChanged: $carPayment.termChange,
+      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
       placeholder: const Text('Term Length in months (36)'),
     );
   }
@@ -269,6 +287,7 @@ class PercentDownInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return ShadInput(
       keyboardType: TextInputType.number,
+      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
       onChanged: $carPayment.percentDownChange,
       suffix: Text('%', style: ShadTheme.of(context).textTheme.muted),
       placeholder: const Text('Percent down (20% default)'),
@@ -355,6 +374,7 @@ class _InterestRateInputState extends State<InterestRateInput> {
       focusNode: focusNode,
       keyboardType: TextInputType.number,
       onChanged: $carPayment.interestRateChange,
+      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
       placeholder: const Text('Interest Rate'),
       suffix: Text('%', style: ShadTheme.of(context).textTheme.muted),
       decoration: first ? null : decor,

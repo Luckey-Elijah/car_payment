@@ -40,7 +40,7 @@ class CarAffordableResultsLabel extends StatelessWidget {
                 '${((((downPercent) / 100)) * affordAmount).toStringAsFixed(0)}',
             style: boldLabel,
           ),
-          const TextSpan(text: '. Your monthly payment would be '),
+          const TextSpan(text: '.\nYour monthly payment would be '),
           TextSpan(
             text:
                 r'$'
