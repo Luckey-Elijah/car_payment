@@ -1,3 +1,4 @@
+import 'package:car_payment/currency_text_editing_controller.dart';
 import 'package:flutter/widgets.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
@@ -32,14 +33,14 @@ class CarAffordableResultsLabel extends StatelessWidget {
               TextSpan(
                 text:
                     r'$'
-                    '${affordAmount.toStringAsFixed(0)}',
+                    '${formatCurrency(affordAmount.toStringAsFixed(0))}',
                 style: boldLabel,
               ),
               const TextSpan(text: ' worth of car with a down payment of '),
               TextSpan(
                 text:
                     r'$'
-                    '${((((downPercent) / 100)) * affordAmount).toStringAsFixed(0)}',
+                    '${formatCurrency(((((downPercent) / 100)) * affordAmount).toStringAsFixed(0))}',
                 style: boldLabel,
               ),
               const TextSpan(text: '.'),
@@ -54,7 +55,7 @@ class CarAffordableResultsLabel extends StatelessWidget {
               TextSpan(
                 text:
                     r'$'
-                    '${monthlyPayment.toStringAsFixed(0)}',
+                    '${formatCurrency(monthlyPayment.toStringAsFixed(0))}',
                 style: boldLabel,
               ),
               const TextSpan(text: '.'),

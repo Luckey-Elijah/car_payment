@@ -1,6 +1,7 @@
 import 'package:car_payment/car_payment_notifier.dart';
 import 'package:car_payment/currency_text_editing_controller.dart';
 import 'package:car_payment/error_when_null.dart';
+import 'package:car_payment/first_focus.dart';
 import 'package:context_plus/context_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
@@ -13,25 +14,14 @@ class GrossIncomeInput extends StatefulWidget {
   State<GrossIncomeInput> createState() => _GrossIncomeInputState();
 }
 
-class _GrossIncomeInputState extends State<GrossIncomeInput> {
+class _GrossIncomeInputState extends State<GrossIncomeInput> with FirstFocus {
   final controller = CurrencyTextEditingController();
-  final focusNode = FocusNode();
-  var hasFocus = false;
-  var first = true;
-  void focusListener() {
-    if (hasFocus && !focusNode.hasFocus) {
-      setState(() => first = false);
-    } else if (!hasFocus) {
-      setState(() => hasFocus = focusNode.hasFocus);
-    }
-  }
 
   @override
   void initState() {
     super.initState();
     controller.addListener(listener);
-    controller.text = '80,000';
-    focusNode.addListener(focusListener);
+    controller.text = '80000';
   }
 
   void listener() {
@@ -40,9 +30,8 @@ class _GrossIncomeInputState extends State<GrossIncomeInput> {
 
   @override
   void dispose() {
-    controller.removeListener(listener);
-    focusNode
-      ..removeListener(focusListener)
+    controller
+      ..removeListener(listener)
       ..dispose();
     super.dispose();
   }

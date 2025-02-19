@@ -1,5 +1,6 @@
 import 'package:car_payment/car_payment_notifier.dart';
 import 'package:car_payment/error_when_null.dart';
+import 'package:car_payment/first_focus.dart';
 import 'package:context_plus/context_plus.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -12,24 +13,12 @@ class InterestRateInput extends StatefulWidget {
   State<InterestRateInput> createState() => _InterestRateInputState();
 }
 
-class _InterestRateInputState extends State<InterestRateInput> {
-  final focusNode = FocusNode();
-  var hasFocus = false;
-  var first = true;
+class _InterestRateInputState extends State<InterestRateInput> with FirstFocus {
   final controller = TextEditingController();
-
-  void focusListener() {
-    if (hasFocus && !focusNode.hasFocus) {
-      setState(() => first = false);
-    } else if (!hasFocus) {
-      setState(() => hasFocus = focusNode.hasFocus);
-    }
-  }
 
   @override
   void initState() {
     super.initState();
-    focusNode.addListener(focusListener);
     controller.addListener(listener);
     controller.text = '8';
   }
@@ -43,9 +32,7 @@ class _InterestRateInputState extends State<InterestRateInput> {
     controller
       ..removeListener(listener)
       ..dispose();
-    focusNode
-      ..removeListener(focusListener)
-      ..dispose();
+
     super.dispose();
   }
 
