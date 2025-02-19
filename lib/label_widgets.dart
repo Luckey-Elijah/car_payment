@@ -22,34 +22,46 @@ class CarAffordableResultsLabel extends StatelessWidget {
       fontWeight: FontWeight.bold,
     );
 
-    return Text.rich(
-      TextSpan(
-        style: label,
-        children: [
-          const TextSpan(text: 'You can afford '),
+    return Column(
+      children: [
+        Text.rich(
           TextSpan(
-            text:
-                r'$'
-                '${affordAmount.toStringAsFixed(0)}',
-            style: boldLabel,
+            style: label,
+            children: [
+              const TextSpan(text: 'You can afford '),
+              TextSpan(
+                text:
+                    r'$'
+                    '${affordAmount.toStringAsFixed(0)}',
+                style: boldLabel,
+              ),
+              const TextSpan(text: ' worth of car with a down payment of '),
+              TextSpan(
+                text:
+                    r'$'
+                    '${((((downPercent) / 100)) * affordAmount).toStringAsFixed(0)}',
+                style: boldLabel,
+              ),
+              const TextSpan(text: '.'),
+            ],
           ),
-          const TextSpan(text: ' worth of car with a down payment of '),
+        ),
+        Text.rich(
           TextSpan(
-            text:
-                r'$'
-                '${((((downPercent) / 100)) * affordAmount).toStringAsFixed(0)}',
-            style: boldLabel,
+            style: label,
+            children: [
+              const TextSpan(text: 'Your monthly payment would be '),
+              TextSpan(
+                text:
+                    r'$'
+                    '${monthlyPayment.toStringAsFixed(0)}',
+                style: boldLabel,
+              ),
+              const TextSpan(text: '.'),
+            ],
           ),
-          const TextSpan(text: '.\nYour monthly payment would be '),
-          TextSpan(
-            text:
-                r'$'
-                '${monthlyPayment.toStringAsFixed(0)}',
-            style: boldLabel,
-          ),
-          const TextSpan(text: '.'),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

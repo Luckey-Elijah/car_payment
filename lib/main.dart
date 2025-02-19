@@ -32,21 +32,31 @@ class CarPaymentApp extends StatelessWidget {
         brightness: Brightness.dark,
         colorScheme: const ShadGrayColorScheme.dark(),
       ),
-      home: Builder(
-        builder: (context) {
-          return ColoredBox(
-            color: ShadTheme.of(context).colorScheme.background,
-            child: DefaultTextStyle(
-              style: ShadTheme.of(context).textTheme.p,
-              child: const Column(
-                children: [
-                  TitleAndThemeSwitch(),
-                  Flexible(child: CarPaymentCalculator()),
-                ],
-              ),
+      home: const BgAndDefaultTextWrapper(
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8),
+              child: TitleAndThemeSwitch(),
             ),
-          );
-        },
+            Flexible(child: CarPaymentCalculator()),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class BgAndDefaultTextWrapper extends StatelessWidget {
+  const BgAndDefaultTextWrapper({required this.child, super.key});
+  final Widget child;
+  @override
+  Widget build(BuildContext context) {
+    return ColoredBox(
+      color: ShadTheme.of(context).colorScheme.background,
+      child: DefaultTextStyle(
+        style: ShadTheme.of(context).textTheme.p,
+        child: child,
       ),
     );
   }
@@ -81,14 +91,18 @@ class CarPaymentCalculator extends StatelessWidget {
         const Padding(
           padding: EdgeInsets.all(8),
           child: ShadCard(
-            width: 200,
-            child: Column(
-              children: [
-                GrossIncomeInput(),
-                InterestRateInput(),
-                MonthlyCarPaymentInput(),
-                AdjustMoreSection(),
-              ],
+            child: Center(
+              child: SizedBox(
+                width: 640,
+                child: Column(
+                  children: [
+                    GrossIncomeInput(),
+                    InterestRateInput(),
+                    MonthlyCarPaymentInput(),
+                    AdjustMoreSection(),
+                  ],
+                ),
+              ),
             ),
           ),
         ),
@@ -96,27 +110,32 @@ class CarPaymentCalculator extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(8),
           child: ShadCard(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const DetailsSummarySection(),
-                const HLine(),
-                CarAffordableResultsLabel(
-                  affordAmount: $carPayment.watchOnly(
-                    context,
-                    (x) => x.affordAmount,
-                  ),
-                  downPercent: $carPayment.watchOnly(
-                    context,
-                    (x) => x.downPercent,
-                  ),
-                  monthlyPayment: $carPayment.watchOnly(
-                    context,
-                    (x) => x.monthlyPayment,
-                  ),
+            child: Center(
+              child: SizedBox(
+                width: 640,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const DetailsSummarySection(),
+                    const HLine(),
+                    CarAffordableResultsLabel(
+                      affordAmount: $carPayment.watchOnly(
+                        context,
+                        (x) => x.affordAmount,
+                      ),
+                      downPercent: $carPayment.watchOnly(
+                        context,
+                        (x) => x.downPercent,
+                      ),
+                      monthlyPayment: $carPayment.watchOnly(
+                        context,
+                        (x) => x.monthlyPayment,
+                      ),
+                    ),
+                    const WebReferenceLinkButton(),
+                  ],
                 ),
-                const WebReferenceLinkButton(),
-              ],
+              ),
             ),
           ),
         ),
@@ -213,7 +232,7 @@ class DetailsSummarySection extends StatelessWidget {
           );
         }
         return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             PercentDownLabel(downPercent: downPercent),
             PayoffTimeLabel(numberOfMonths: numberOfMonths),

@@ -11,6 +11,7 @@ class TitleAndThemeSwitch extends StatelessWidget {
     final mode = $theme.watch(context);
 
     return Row(
+      spacing: 8,
       children: [
         Expanded(
           child: Center(
