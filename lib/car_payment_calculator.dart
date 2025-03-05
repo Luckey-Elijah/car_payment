@@ -2,7 +2,6 @@ import 'package:car_payment/adjust_more_section.dart';
 import 'package:car_payment/car_payment_notifier.dart';
 import 'package:car_payment/details_summary_section.dart';
 import 'package:car_payment/gross_income_input.dart';
-import 'package:car_payment/hline.dart';
 import 'package:car_payment/interest_rate_input.dart';
 import 'package:car_payment/label_widgets.dart';
 import 'package:car_payment/monthly_car_payment_input.dart';
@@ -22,20 +21,18 @@ class CarPaymentCalculator extends StatelessWidget {
     final monthlyPayment = $.watchOnly(context, (x) => x.monthlyPayment);
     return ListView(
       children: [
-        const Padding(
+        Padding(
           padding: EdgeInsets.all(8),
           child: ShadCard(
             child: Center(
-              child: SizedBox(
-                width: 640,
-                child: Column(
-                  children: [
-                    GrossIncomeInput(),
-                    InterestRateInput(),
-                    MonthlyCarPaymentInput(),
-                    AdjustMoreSection(),
-                  ],
-                ),
+              child: Column(
+                children: [
+                  GrossIncomeInput(),
+                  InterestRateInput(),
+                  MonthlyCarPaymentInput(),
+                  ShadSeparator.horizontal(),
+                  AdjustMoreSection(),
+                ],
               ),
             ),
           ),
@@ -51,7 +48,7 @@ class CarPaymentCalculator extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const DetailsSummarySection(),
-                    const HLine(),
+                    ShadSeparator.horizontal(),
                     CarAffordableResultsLabel(
                       monthlyPayment: monthlyPayment,
                       affordAmount: affordAmount,

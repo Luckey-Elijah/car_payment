@@ -9,10 +9,11 @@ class WebReferenceLinkButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ShadTooltip(
+      reverseDuration: Duration(milliseconds: 80),
       builder: (_) => Text('$url'),
       child: ShadButton.ghost(
         expands: true,
-        icon: const Icon(LucideIcons.externalLink),
+        leading: const Icon(LucideIcons.externalLink),
         onPressed: () async {
           if (!await launchUrl(url) && context.mounted) {
             ShadToaster.of(context).show(
@@ -46,7 +47,7 @@ class _CopyUrlToClipboardState extends State<CopyUrlToClipboard> {
 
   @override
   Widget build(BuildContext context) {
-    return ShadButton(onPressed: onPressed, icon: icon());
+    return ShadButton(onPressed: onPressed, leading: icon());
   }
 
   Widget icon() {

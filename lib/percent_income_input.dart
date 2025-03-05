@@ -12,7 +12,7 @@ class PercentIncomeInput extends StatelessWidget {
       keyboardType: TextInputType.number,
       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
       onChanged: $carPayment.percentIncomeChange,
-      suffix: Text('%', style: ShadTheme.of(context).textTheme.muted),
+      leading: Text('%', style: ShadTheme.of(context).textTheme.muted),
       placeholder: const Text('% of pre-tax income (8%)'),
     );
   }

@@ -12,7 +12,7 @@ class PercentDownInput extends StatelessWidget {
       keyboardType: TextInputType.number,
       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
       onChanged: $carPayment.percentDownChange,
-      suffix: Text('%', style: ShadTheme.of(context).textTheme.muted),
+      trailing: Text('%', style: ShadTheme.of(context).textTheme.muted),
       placeholder: const Text('Percent down (20% default)'),
     );
   }

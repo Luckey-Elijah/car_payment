@@ -34,7 +34,7 @@ class _MonthlyCarPaymentInputState extends State<MonthlyCarPaymentInput> {
     return ShadInput(
       controller: controller,
       keyboardType: TextInputType.number,
-      prefix: Text(r'$', style: ShadTheme.of(context).textTheme.muted),
+      leading: Text(r'$', style: ShadTheme.of(context).textTheme.muted),
       placeholder: const Text('Current Monthly Car Payments'),
     );
   }

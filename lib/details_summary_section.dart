@@ -2,6 +2,7 @@ import 'package:car_payment/car_payment_notifier.dart';
 import 'package:car_payment/label_widgets.dart';
 import 'package:context_plus/context_plus.dart';
 import 'package:flutter/widgets.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 class DetailsSummarySection extends StatelessWidget {
   const DetailsSummarySection({super.key});
@@ -19,23 +20,17 @@ class DetailsSummarySection extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         if (constraints.maxWidth > 480) {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              PercentDownLabel(downPercent: $carPayment.downPercent),
-              Flexible(
-                child: Align(
-                  alignment: AlignmentDirectional.center,
-                  child: PayoffTimeLabel(
-                    numberOfMonths: $carPayment.numberOfMonths,
-                  ),
-                ),
-              ),
-              Align(
-                alignment: AlignmentDirectional.centerEnd,
-                child: PretaxIncomRateLabel(incomeCap: $carPayment.incomeCap),
-              ),
-            ],
+          return IntrinsicHeight(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                PercentDownLabel(downPercent: $carPayment.downPercent),
+                ShadSeparator.vertical(),
+                PayoffTimeLabel(numberOfMonths: $carPayment.numberOfMonths),
+                ShadSeparator.vertical(),
+                PretaxIncomeRateLabel(incomeCap: $carPayment.incomeCap),
+              ],
+            ),
           );
         }
         return Column(
@@ -43,7 +38,7 @@ class DetailsSummarySection extends StatelessWidget {
           children: [
             PercentDownLabel(downPercent: downPercent),
             PayoffTimeLabel(numberOfMonths: numberOfMonths),
-            PretaxIncomRateLabel(incomeCap: incomeCap),
+            PretaxIncomeRateLabel(incomeCap: incomeCap),
           ],
         );
       },

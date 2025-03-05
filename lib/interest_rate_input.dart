@@ -47,7 +47,7 @@ class _InterestRateInputState extends State<InterestRateInput> with FirstFocus {
       onChanged: $carPayment.interestRateChange,
       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
       placeholder: const Text('Interest Rate'),
-      suffix: Text('%', style: ShadTheme.of(context).textTheme.muted),
+      trailing: Text('%', style: ShadTheme.of(context).textTheme.muted),
       decoration: first ? null : decor,
     );
   }

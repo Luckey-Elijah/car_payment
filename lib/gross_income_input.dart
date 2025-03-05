@@ -49,7 +49,7 @@ class _GrossIncomeInputState extends State<GrossIncomeInput> with FirstFocus {
       focusNode: focusNode,
       keyboardType: TextInputType.number,
       placeholder: const Text('Annual Gross Income'),
-      prefix: Text(r'$', style: ShadTheme.of(context).textTheme.muted),
+      leading: Text(r'$', style: ShadTheme.of(context).textTheme.muted),
       decoration: first ? null : decoration,
     );
   }

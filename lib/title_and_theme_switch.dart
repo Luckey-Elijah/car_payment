@@ -18,7 +18,7 @@ class TitleAndThemeSwitch extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(left: 8),
               child: Text(
-                'How Much Car Can You Afford',
+                'How Much Car Can You Afford?',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: ShadTheme.of(context).textTheme.h3,
@@ -33,7 +33,7 @@ class TitleAndThemeSwitch extends StatelessWidget {
                 ThemeMode.light => const Text('using light mode'),
                 ThemeMode.dark => const Text('using dark mode'),
               },
-          child: ShadButton.outline(
+          child: ShadIconButton.outline(
             icon: Icon(switch (mode) {
               ThemeMode.system => LucideIcons.computer,
               ThemeMode.light => LucideIcons.lightbulb,

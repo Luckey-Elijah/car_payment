@@ -47,7 +47,10 @@ class App extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 8),
               child: TitleAndThemeSwitch(),
             ),
-            Flexible(child: CarPaymentCalculator()),
+
+            Flexible(
+              child: SizedBox(width: 640, child: CarPaymentCalculator()),
+            ),
           ],
         ),
       ),

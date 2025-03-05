@@ -13,7 +13,7 @@ class AdjustMoreSection extends StatelessWidget {
         const percentDown = PercentDownInput();
         const termLength = TermLengthInput();
         const pretax = PercentIncomeInput();
-        if (constraints.maxWidth > 600) {
+        if (constraints.maxWidth > 480) {
           return const Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [

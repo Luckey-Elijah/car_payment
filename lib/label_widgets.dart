@@ -67,8 +67,8 @@ class CarAffordableResultsLabel extends StatelessWidget {
   }
 }
 
-class PretaxIncomRateLabel extends StatelessWidget {
-  const PretaxIncomRateLabel({super.key, required this.incomeCap});
+class PretaxIncomeRateLabel extends StatelessWidget {
+  const PretaxIncomeRateLabel({super.key, required this.incomeCap});
 
   final double incomeCap;
 
