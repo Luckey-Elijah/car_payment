@@ -3,16 +3,14 @@ description: "How Much Car Can You Afford?"
 publish_to: "none"
 version: 1.0.0+1
 flutter: { uses-material-design: false }
-environment:
-  sdk: "^3.8.0"
-  flutter: "3.32.0"
+environment: { sdk: "^3.8.0", flutter: "3.32.0" }
 dependencies:
   {
-    context_plus: ^6.0.0,
+    context_plus: ^6.0.1,
     flutter: { sdk: flutter },
-    shadcn_ui: ^0.26.5,
+    shadcn_ui: ^0.27.0,
     url_launcher: ^6.3.1,
   }
 dev_dependencies:
   flutter_test: { sdk: flutter }
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0

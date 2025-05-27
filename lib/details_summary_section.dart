@@ -22,26 +22,64 @@ class DetailsSummarySection extends StatelessWidget {
         if (constraints.maxWidth > 480) {
           return IntrinsicHeight(
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                PercentDownLabel(downPercent: $carPayment.downPercent),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(child: PercentDownLabel(downPercent: $carPayment.downPercent)),
+                  ),
+                ),
                 ShadSeparator.vertical(),
-                PayoffTimeLabel(numberOfMonths: $carPayment.numberOfMonths),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(
+                      child: PayoffTimeLabel(numberOfMonths: $carPayment.numberOfMonths),
+                    ),
+                  ),
+                ),
                 ShadSeparator.vertical(),
-                PretaxIncomeRateLabel(incomeCap: $carPayment.incomeCap),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(child: PretaxIncomeRateLabel(incomeCap: $carPayment.incomeCap)),
+                  ),
+                ),
               ],
             ),
           );
         }
         return Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            PercentDownLabel(downPercent: downPercent),
-            PayoffTimeLabel(numberOfMonths: numberOfMonths),
-            PretaxIncomeRateLabel(incomeCap: incomeCap),
+            _WithDot(PercentDownLabel(downPercent: downPercent)),
+            _WithDot(PayoffTimeLabel(numberOfMonths: numberOfMonths)),
+            _WithDot(PretaxIncomeRateLabel(incomeCap: incomeCap)),
           ],
         );
       },
+    );
+  }
+}
+
+class _WithDot extends StatelessWidget {
+  const _WithDot(this.child, {super.key});
+  final Widget child;
+  @override
+  Widget build(BuildContext context) {
+    final style = ShadTheme.of(context).textTheme.p;
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(right: 5),
+          child: DecoratedBox(
+            decoration: BoxDecoration(shape: BoxShape.circle, color: style.color),
+            child: SizedBox.square(dimension: (style.fontSize ?? 16.0) / 3),
+          ),
+        ),
+        child,
+      ],
     );
   }
 }

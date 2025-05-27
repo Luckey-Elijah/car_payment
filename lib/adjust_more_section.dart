@@ -18,12 +18,26 @@ class AdjustMoreSection extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Expanded(child: percentDown),
-              Expanded(child: termLength),
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 6.0),
+                  child: termLength,
+                ),
+              ),
               Expanded(child: pretax),
             ],
           );
         }
-        return const Column(children: [percentDown, termLength, pretax]);
+        return const Column(
+          children: [
+            percentDown,
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 6.0),
+              child: termLength,
+            ),
+            pretax,
+          ],
+        );
       },
     );
   }

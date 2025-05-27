@@ -1,4 +1,3 @@
-import 'package:car_payment/bg_and_default_text_wrapper.dart';
 import 'package:car_payment/car_payment_calculator.dart';
 import 'package:car_payment/theme_notifier.dart';
 import 'package:car_payment/title_and_theme_switch.dart';
@@ -15,14 +14,20 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mode = $theme.watch(context);
+    const shadSeparatorTheme = ShadSeparatorTheme(
+      horizontalMargin: EdgeInsets.zero,
+      verticalMargin: EdgeInsets.zero,
+    );
     final theme = ShadThemeData(
       brightness: Brightness.light,
       colorScheme: const ShadGrayColorScheme.light(),
+      separatorTheme: shadSeparatorTheme,
     );
 
     final darkTheme = ShadThemeData(
       brightness: Brightness.dark,
       colorScheme: const ShadGrayColorScheme.dark(),
+      separatorTheme: shadSeparatorTheme,
     );
 
     final color = switch (mode) {
@@ -36,23 +41,20 @@ class App extends StatelessWidget {
     return ShadApp(
       color: color,
       debugShowCheckedModeBanner: false,
-      title: 'How Much Car Can You Afford?',
+      title: 'how much car can you afford?',
       themeMode: mode,
       theme: theme,
       darkTheme: darkTheme,
-      home: const BgAndDefaultTextWrapper(
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8),
-              child: TitleAndThemeSwitch(),
-            ),
-
-            Flexible(
-              child: SizedBox(width: 640, child: CarPaymentCalculator()),
-            ),
-          ],
-        ),
+      home: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: TitleAndThemeSwitch(),
+          ),
+          Flexible(
+            child: SizedBox(width: 640, child: CarPaymentCalculator()),
+          ),
+        ],
       ),
     );
   }

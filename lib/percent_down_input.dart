@@ -1,19 +1,32 @@
 import 'package:car_payment/car_payment_notifier.dart';
-import 'package:flutter/services.dart';
+import 'package:car_payment/decimal_text_editing_controller.dart';
 import 'package:flutter/widgets.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
-class PercentDownInput extends StatelessWidget {
+class PercentDownInput extends StatefulWidget {
   const PercentDownInput({super.key});
+
+  @override
+  State<PercentDownInput> createState() => _PercentDownInputState();
+}
+
+class _PercentDownInputState extends State<PercentDownInput> {
+  final controller = DecimalTextEditingController('20.0');
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return ShadInput(
+      controller: controller,
       keyboardType: TextInputType.number,
-      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
       onChanged: $carPayment.percentDownChange,
-      trailing: Text('%', style: ShadTheme.of(context).textTheme.muted),
-      placeholder: const Text('Percent down (20% default)'),
+      trailing: Icon(LucideIcons.percent),
+      placeholder: const Text('percent down'),
     );
   }
 }

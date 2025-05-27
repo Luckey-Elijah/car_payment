@@ -61,10 +61,10 @@ packages:
     dependency: "direct main"
     description:
       name: context_plus
-      sha256: "275e0c1286b23bea096eee638931957e6dba5fd93e5d0b8927bc4c694234db67"
+      sha256: c05ac85b2c8aed32df8bdecbf056b5ffb2db3ba5461c84ffae84565d14477569
       url: "https://pub.dev"
     source: hosted
-    version: "6.0.0"
+    version: "6.0.1"
   context_plus_core:
     dependency: transitive
     description:
@@ -77,10 +77,10 @@ packages:
     dependency: transitive
     description:
       name: context_ref
-      sha256: e84e55a999208609f6610e4aa5596e884efdb7299ec9c4862facfdd1fac7dbfd
+      sha256: "3a0452ede67a1b2ad8c327cbe6ae56cbbd0a642083ae3a1f23864dbf263d3135"
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.0"
+    version: "3.1.0"
   context_watch:
     dependency: transitive
     description:
@@ -154,10 +154,10 @@ packages:
     dependency: "direct dev"
     description:
       name: flutter_lints
-      sha256: "5398f14efa795ffb7a33e9b6a08798b26a180edac4ad7db3f231e40f82ce11e1"
+      sha256: "3105dc8492f6183fb076ccf1f351ac3d60564bff92e20bfc4af9cc1651f4e7e1"
       url: "https://pub.dev"
     source: hosted
-    version: "5.0.0"
+    version: "6.0.0"
   flutter_localizations:
     dependency: transitive
     description: flutter
@@ -257,10 +257,10 @@ packages:
     dependency: transitive
     description:
       name: lints
-      sha256: c35bb79562d980e9a453fc715854e1ed39e24e7d0297a880ef54e17f9874a9d7
+      sha256: a5e2b223cb7c9c8efdc663ef484fdd95bb243bff242ef5b13e26883547fce9a0
       url: "https://pub.dev"
     source: hosted
-    version: "5.1.1"
+    version: "6.0.0"
   lucide_icons_flutter:
     dependency: transitive
     description:
@@ -385,10 +385,10 @@ packages:
     dependency: "direct main"
     description:
       name: shadcn_ui
-      sha256: a253f892a33ee114e11b60d987f089821ce39b2729ae8c8af0351ff5104aebc1
+      sha256: e625f8bb56a950ea105f8f8d4048193c2261b033704bbc9df0fc7f30a8f2aa40
       url: "https://pub.dev"
     source: hosted
-    version: "0.26.5"
+    version: "0.27.0"
   sky_engine:
     dependency: transitive
     description: flutter
