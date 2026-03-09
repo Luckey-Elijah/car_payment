@@ -5,8 +5,7 @@ double loanAmount({
   required double interestRate,
   required int months,
 }) {
-  return (monthlyPayment / interestRate) *
-      (1 - (1 / (pow(1 + interestRate, months))));
+  return (monthlyPayment / interestRate) * (1 - (1 / (pow(1 + interestRate, months))));
 }
 
 double calculateAffordableAmount({

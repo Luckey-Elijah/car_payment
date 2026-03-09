@@ -63,8 +63,10 @@ class DetailsSummarySection extends StatelessWidget {
 }
 
 class _WithDot extends StatelessWidget {
-  const _WithDot(this.child, {super.key});
+  const _WithDot(this.child);
+
   final Widget child;
+
   @override
   Widget build(BuildContext context) {
     final style = ShadTheme.of(context).textTheme.p;

@@ -5,10 +5,7 @@ ShadDecoration? errorWhenNull(double? value, BuildContext context) {
   if (value == null) {
     return ShadDecoration(
       border: ShadBorder.all(
-        color:
-            value == null
-                ? ShadTheme.of(context).colorScheme.destructive
-                : null,
+        color: value == null ? ShadTheme.of(context).colorScheme.destructive : null,
       ),
     );
   }

@@ -27,12 +27,11 @@ class TitleAndThemeSwitch extends StatelessWidget {
           ),
         ),
         ShadTooltip(
-          builder:
-              (_) => switch (mode) {
-                ThemeMode.system => const Text('using system mode'),
-                ThemeMode.light => const Text('using light mode'),
-                ThemeMode.dark => const Text('using dark mode'),
-              },
+          builder: (_) => switch (mode) {
+            ThemeMode.system => const Text('using system mode'),
+            ThemeMode.light => const Text('using light mode'),
+            ThemeMode.dark => const Text('using dark mode'),
+          },
           child: ShadIconButton.outline(
             icon: Icon(switch (mode) {
               ThemeMode.system => LucideIcons.computer,
