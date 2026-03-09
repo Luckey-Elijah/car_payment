@@ -3,7 +3,7 @@ description: "How Much Car Can You Afford?"
 publish_to: "none"
 version: 1.1.0+1
 flutter: { uses-material-design: false }
-environment: { sdk: "^3.8.0", flutter: "3.32.0" }
+environment: { sdk: ^3.11.0, flutter: ^3.41.0 }
 
 dependencies:
   context_plus: ^6.0.6
